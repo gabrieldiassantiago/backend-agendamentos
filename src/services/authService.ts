@@ -2,13 +2,17 @@ import * as bcript from 'bcryptjs';
 import { AuthRepository } from '../repositories/authRepository';
 import jwt from 'jsonwebtoken';
 
-
 export class AuthService {
 
     private userRepo: AuthRepository
 
     constructor() {
         this.userRepo = new AuthRepository
+    }
+
+    async checkUserExists(email: string): Promise<boolean> {
+        const user = await this.userRepo.findByEmail(email);
+        return !!user;
     }
 
     async register(name: string, email: string, password: string, photoUrl?: string) {

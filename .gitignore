@@ -13,6 +13,8 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 
+/src/config/key.json
+
 # Database
 *.db
 *.sqlite

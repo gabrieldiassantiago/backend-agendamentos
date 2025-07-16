@@ -1,25 +1,35 @@
 import { AuthService } from "../services/authService";
 import { Request, Response } from "express";
-import fs from 'fs';
-
+import { uploadFileToFirebase } from "../utils/firebaseUpload";
 
 const authService = new AuthService();
-
-
 
 export class AuthController {
   static async register(req: Request, res: Response) {
     const { name, email, password } = req.body;
-    const filePath = req.file?.path;
 
     try {
-      const user = await authService.register(name, email, password, filePath);
-      res.status(201).json(user);
-    } catch (err: any) {
-      res.status(400).json({ error: err.message });
-      if (filePath &&  fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath); // Remove the uploaded file if registration fails
+      if (!name || !email || !password) {
+        return res.status(400).json({ error: "Nome, email e senha são obrigatórios" });
       }
+
+      const userExists = await authService.checkUserExists(email);
+      
+      if (userExists) {
+        return res.status(400).json({ error: "Usuario ja existe" });
+      }
+
+      let profilePhotoUrl: string | undefined;
+      if (req.file) {
+        profilePhotoUrl = await uploadFileToFirebase(req.file);
+      }
+
+      const user = await authService.register(name, email, password, profilePhotoUrl);
+      res.status(201).json(user);
+
+    } catch (err: any) {
+      console.error(err);
+      res.status(400).json({ error: err.message });
     }
   }
 
@@ -34,6 +44,7 @@ export class AuthController {
 
   static async login(req: Request, res: Response) {
     const { email, password } = req.body;
+
     try {
       const token = await authService.login(email, password);
       res.status(200).json(token);

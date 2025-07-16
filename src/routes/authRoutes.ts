@@ -7,6 +7,6 @@ const authRoutes = Router();
 
 authRoutes.post("/register", upload.single("profilePhoto"), AuthController.register);
 authRoutes.post("/login", AuthController.login);
-authRoutes.get("/users", AuthController.getAllUsers); // Assuming you want to add a route to get all users
+authRoutes.get("/users", AuthController.getAllUsers);
 
 export default authRoutes;
