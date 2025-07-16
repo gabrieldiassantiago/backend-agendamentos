@@ -1,4 +1,4 @@
-# Estudos TypeScript - API de agebdamentos
+# Estudos TypeScript - API de agendamentos
 
 ## 📋 Descrição
 
