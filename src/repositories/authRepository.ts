@@ -1,31 +1,19 @@
-import { prisma } from '../prisma/client'
-
-interface User {
-    name: string;
-    email: string;
-    password: string;
-}
+import { prisma } from '../prisma/client';
 
 export class AuthRepository {
-    
-    async createUser(data: User) {
-        const user = await prisma.user.create({
-            data
-        });
-        return user;
-    }
+  async createUser(data: { name: string; email: string; password: string }) {
+    return await prisma.user.create({ data });
+  }
 
-    async findByEmail(email: string) {
-        const user = await prisma.user.findUnique({
-            where: { email }
-        });
-        return user;
-    }
+  async findByEmail(email: string) {
+    return await prisma.user.findUnique({ where: { email } });
+  }
 
-    async findAll() {
-        const users = await prisma.user.findMany();
-        return users;
-    }
+  async findById(id: string) {
+    return await prisma.user.findUnique({ where: { id } });
+  }
 
-     
+  async findAll() {
+    return await prisma.user.findMany();
+  }
 }
