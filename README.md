@@ -1,8 +1,8 @@
-# Estudos TypeScript - API de Autenticação
+# Estudos TypeScript - API de agebdamentos
 
 ## 📋 Descrição
 
-Esta é uma API REST desenvolvida em TypeScript com Express.js para estudos e prática de desenvolvimento backend. O projeto implementa um sistema de autenticação completo com registro e login de usuários, utilizando JWT para autenticação e bcrypt para hash de senhas.
+Esta é uma API REST desenvolvida em TypeScript com Express.js para estudos e prática de desenvolvimento backend. O projeto implementa um sistema de autenticação completo com registro e login de usuários, utilizando JWT para autenticação e bcrypt para hash de senhas. Ainda estou trabalhando nos módulos de agendamento!
 
 ## 🚀 Tecnologias Utilizadas
 
