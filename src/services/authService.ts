@@ -1,13 +1,12 @@
-import * as bcript from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import { AuthRepository } from '../repositories/authRepository';
 import jwt from 'jsonwebtoken';
 
 export class AuthService {
-
     private userRepo: AuthRepository
 
     constructor() {
-        this.userRepo = new AuthRepository
+        this.userRepo = new AuthRepository()
     }
 
     async checkUserExists(email: string): Promise<boolean> {
@@ -16,14 +15,7 @@ export class AuthService {
     }
 
     async register(name: string, email: string, password: string, photoUrl?: string) {
-
-        const userExists = await this.userRepo.findByEmail(email);
-
-        if (userExists) {
-            throw new Error("Usuario ja existe");
-        }
-
-        const hashedPassword = await bcript.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
         
         const user = await this.userRepo.createUser({
             name,
@@ -40,14 +32,14 @@ export class AuthService {
         }
     }
 
-    async login(email:string, password: string) {
-      const user = await this.userRepo.findByEmail(email);
+    async login(email: string, password: string) {
+        const user = await this.userRepo.findByEmail(email);
 
-      if (!user) {
-          throw new Error("Usuario nao encontrado");
-      }
+        if (!user) {
+            throw new Error("Usuario nao encontrado");
+        }
 
-      const isPasswordValid = await bcript.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             throw new Error("Senha invalida");
         }

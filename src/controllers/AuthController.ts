@@ -1,18 +1,15 @@
 import { AuthService } from "../services/authService";
 import { Request, Response } from "express";
 import { uploadFileToFirebase } from "../utils/firebaseUpload";
+import { LoginSchema, RegisterSchema } from "../schemas/authSchemas";
 
 const authService = new AuthService();
 
 export class AuthController {
   static async register(req: Request, res: Response) {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body as RegisterSchema;
 
     try {
-      if (!name || !email || !password) {
-        return res.status(400).json({ error: "Nome, email e senha são obrigatórios" });
-      }
-
       const userExists = await authService.checkUserExists(email);
       
       if (userExists) {
@@ -33,17 +30,17 @@ export class AuthController {
     }
   }
 
-  static async getAllUsers(req: Request, res: Response) {
-    try {
-      const users = await authService.getAllUsers();
-      res.status(200).json(users);
-    } catch (err: any) {
-      res.status(500).json({ error: err.message });
-    }
-  }
+  // static async getAllUsers(req: Request, res: Response) {
+  //   try {
+  //     const users = await authService.getAllUsers();
+  //     res.status(200).json(users);
+  //   } catch (err: any) {
+  //     res.status(500).json({ error: err.message });
+  //   }
+  // }
 
   static async login(req: Request, res: Response) {
-    const { email, password } = req.body;
+    const { email, password } = req.body as LoginSchema;
 
     try {
       const token = await authService.login(email, password);
