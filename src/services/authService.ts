@@ -11,7 +11,7 @@ export class AuthService {
         this.userRepo = new AuthRepository
     }
 
-    async register(name: string, email: string, password: string) {
+    async register(name: string, email: string, password: string, photoUrl?: string) {
 
         const userExists = await this.userRepo.findByEmail(email);
 
@@ -24,13 +24,15 @@ export class AuthService {
         const user = await this.userRepo.createUser({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            profilePhoto: photoUrl || "https://example.com/default-profile-photo.png"
         });
 
         return {
             id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            profilePhoto: user.profilePhoto
         }
     }
 
@@ -53,5 +55,9 @@ export class AuthService {
         );
 
         return { token };
+    }
+
+    async getAllUsers() {
+        return this.userRepo.findAll();
     }
 }

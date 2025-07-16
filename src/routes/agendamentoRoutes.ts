@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { AgendamentoController } from '../controllers/AgendamentoController';
 import {authMiddleware } from '../middlewares/auth';
+import { AgendamentoController } from '../controllers/agendamentoController';
 
 const agendamentosRoutes = Router();
 

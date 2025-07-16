@@ -15,12 +15,14 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-
+  id           String        @id @default(uuid())
   email        String        @unique
   name         String
   password     String
   agendamentos Agendamento[]
+  profilePhoto String?       @default("https://example.com/default-profile-photo.png")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
 }
 
 model Agendamento {

@@ -1,7 +1,7 @@
 import { prisma } from '../prisma/client';
 
 export class AuthRepository {
-  async createUser(data: { name: string; email: string; password: string }) {
+  async createUser(data: { name: string; email: string; password: string, profilePhoto?: string }) {
     return await prisma.user.create({ data });
   }
 
